@@ -1,20 +1,9 @@
-import time
-import pytest
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from help import scroll_to
+import time
+from helper.helpers import scroll_to
 
 
-@pytest.fixture
-def driver_chrome():
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    driver.maximize_window()
-    yield driver
-    driver.close()
-    driver.quit()
 def test_site_anime_url(driver_chrome):
     driver_chrome.get('https://animego.org/')
     element = driver_chrome.find_element(By.XPATH, "//*[@class='nav-link']")
