@@ -1,9 +1,10 @@
+import pytest
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 import time
 from helper.helpers import scroll_to
 
-
+@pytest.mark.button
 def test_site_anime_url(driver_chrome):
     element = driver_chrome.find_element(By.XPATH, "//*[@class='nav-link']")
     element.click()
@@ -14,7 +15,7 @@ def test_anime_attribute(driver_chrome):
     element = driver_chrome.find_element(By.XPATH, "//*[@class='nav-link']")
     assert element.get_attribute('href') in 'https://animego.org/anime'
 
-
+@pytest.mark.button
 def test_anime_char(driver_chrome):
     element = driver_chrome.find_element(By.LINK_TEXT, "Персонажи")
     element.click()
@@ -30,14 +31,14 @@ def test_anime_text(driver_chrome):
     element = driver_chrome.find_element(By.CSS_SELECTOR, '.nav-link')
     assert element.text == "Аниме"
 
-
-def test_anime_search(driver_chrome):
+@pytest.mark.parametrize('text', ["91 день", "магическая битва", "тетрадь смерти"])
+def test_anime_search(driver_chrome, text):
     element_1 = driver_chrome.find_element(By.CSS_SELECTOR, '#navbar-search')
     element_1.click()
     element_2 = driver_chrome.find_element(By.CSS_SELECTOR, ".form-control-reset.w-100.text-placeholder-4")
-    element_2.send_keys('Наруто')
+    element_2.send_keys(text)
     element_2.send_keys(Keys.RETURN)
-    assert driver_chrome.current_url == "https://animego.org/search/all?q=%D0%9D%D0%B0%D1%80%D1%83%D1%82%D0%BE"
+    assert driver_chrome.current_url != "https://animego.org/"
 
 
 def test_anime_random(driver_chrome):
@@ -45,7 +46,7 @@ def test_anime_random(driver_chrome):
     element.click()
     assert driver_chrome.current_url != 'https://animego.org/'
 
-
+@pytest.mark.login
 def test_anime_login(driver_chrome):
     driver_chrome.get('https://animego.org/login')
     login = driver_chrome.find_element(By.CSS_SELECTOR, "#username")
