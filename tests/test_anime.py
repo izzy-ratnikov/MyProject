@@ -60,6 +60,7 @@ def test_anime_login(driver_chrome):
 
 def test_anime_video(driver_chrome):
     driver_chrome.get('https://animego.org/anime/magiya-i-muskuly-2-2493')
-    element = driver_chrome.find_element(By.CSS_SELECTOR, ".video-item-icon.m-1.d-flex.align-items-center.justify-content-center")
+    element = driver_chrome.find_element(By.XPATH, "//*[@id='content']//div/ a/div[2]")
     element.click()
     time.sleep(4)
+
