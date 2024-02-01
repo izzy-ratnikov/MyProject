@@ -5,7 +5,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 
 
-
 @pytest.fixture
 def driver_chrome():
     chrome_options = Options()
