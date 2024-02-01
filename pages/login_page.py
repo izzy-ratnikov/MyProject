@@ -8,10 +8,9 @@ class LoginPage:
 
     def __init__(self, driver):
         self.driver = driver
-
+        self.driver.get('https://animego.org/login')
 
     def login_box(self):
-        self.driver.get('https://animego.org/login')
         login = self.driver.find_element(*LoginPage.LOGIN)
         login.send_keys('stylebender')
         password = self.driver.find_element(*LoginPage.PASSWORD)
