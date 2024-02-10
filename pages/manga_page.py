@@ -1,25 +1,25 @@
-from selenium.webdriver.common.by import By
-
 from helper import MANGA_URL
+from pages.base_page import BasePage
 
 
-class Manga:
-    SELECT_MANGA = (By.XPATH, "//*[@id='manga-list-container']/div[4]//div[2]/div[1]/a")
-    SORTED_BUTTON = (By.XPATH, "//*[@id='sorter-sort']")
-    CHOOSE_SORTED = (By.XPATH, "//*[@id='sorter']//div[1]/div[3]//span[3]")
+class MangaLocators:
+    SELECT_MANGA = "//*[@id='manga-list-container']/div[4]//div[2]/div[1]/a"
+    SORTED_BUTTON = "//*[@id='sorter-sort']"
+    CHOOSE_SORTED = "//*[@id='sorter']/div/div[1]/div[3]/div/span[3]"
+
+
+class Manga(BasePage):
 
     def __init__(self, driver):
         self.driver = driver
+        super().__init__(driver)
         self.driver.get(MANGA_URL)
 
     def choose_manga_in_list(self):
-        element = self.driver.find_element(*Manga.SELECT_MANGA)
-        element.click()
-        assert self.driver.current_url == "https://animego.org/manga/keyon-shaffl-1795"
+        base_page = BasePage(self.driver)
+        base_page.click_on(MangaLocators.SELECT_MANGA)
 
     def sorted_manga(self):
-        element = self.driver.find_element(*Manga.SORTED_BUTTON)
-        element.click()
-        element_2 = self.driver.find_element(*Manga.CHOOSE_SORTED)
-        element_2.click()
-        assert self.driver.current_url == "https://animego.org/manga?sort=r.rating&direction=desc"
+        base_page = BasePage(self.driver)
+        base_page.click_on(MangaLocators.SORTED_BUTTON)
+        base_page.click_on(MangaLocators.CHOOSE_SORTED)

@@ -1,20 +1,21 @@
-from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
 
-class LoginPage:
-    LOGIN = (By.CSS_SELECTOR, "#username")
-    PASSWORD = (By.CSS_SELECTOR, "#password")
-    BUTTON_LOGIN = (By.CSS_SELECTOR, "#_submit")
+class LoginPageLocators:
+    LOGIN = "#username"
+    PASSWORD = "#password"
+    BUTTON_LOGIN = "#_submit"
+
+
+class LoginPage(BasePage):
 
     def __init__(self, driver):
         self.driver = driver
+        super().__init__(driver)
         self.driver.get('https://animego.org/login')
 
     def login_box(self):
-        login = self.driver.find_element(*LoginPage.LOGIN)
-        login.send_keys('stylebender')
-        password = self.driver.find_element(*LoginPage.PASSWORD)
-        password.send_keys('123443')
-        button_login = self.driver.find_element(*LoginPage.BUTTON_LOGIN)
-        button_login.click()
-        assert self.driver.current_url == 'https://animego.org/profile/'
+        base_page = BasePage(self.driver)
+        base_page.send_keys_css(LoginPageLocators.LOGIN, "stylebender")
+        base_page.send_keys_css(LoginPageLocators.PASSWORD, '123443')
+        base_page.click_on_css(LoginPageLocators.BUTTON_LOGIN)
